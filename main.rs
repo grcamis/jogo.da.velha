@@ -1,13 +1,15 @@
+mod damas;
+mod fns;
 mod jogodavelha;
 mod quatroemlinha;
 mod traits;
-mod fns;
 
-use traits::Jogador;
-use traits::Tabuleiro;
+use crate::traits::ComportamentoJogo;
+use damas::Damas;
 use jogodavelha::JogoDaVelha;
 use quatroemlinha::QuatroEmLinha;
-use crate::traits::ComportamentoJogo;
+use traits::Jogador;
+use traits::Tabuleiro;
 
 fn main() {
     println!("Bem vindo aos mini jogos! Escolha a opção desejada para iniciarmos:");
@@ -15,11 +17,14 @@ fn main() {
     println!("Digite B caso queira jogar 4 em linha");
     println!("Digite qualquer outra tecla caso queira sair do programa");
     let escolha_interface = fns::le_linha();
-    let mut tabuleiro = Tabuleiro {tamanho:vec![vec!["_".to_string(); 7]; 6] };
+    let mut tabuleiro = Tabuleiro {
+        tamanho: vec![vec!["_".to_string(); 10]; 10],
+    };
 
     if escolha_interface.trim() == "A" {
-
-        let jogo = JogoDaVelha {nome: "Jogo da Velha".to_string()};
+        let jogo = JogoDaVelha {
+            nome: "Jogo da Velha".to_string(),
+        };
 
         println!("Participante 1 escolha X ou O");
         let mut opcao_escolhida = fns::le_linha();
@@ -47,7 +52,7 @@ fn main() {
                 break;
             }
 
-          jogo.verifica_linha(&mut tabuleiro, jogador1.simbolo.as_str().trim());
+            jogo.verifica_linha(&mut tabuleiro, jogador1.simbolo.as_str().trim());
             if jogo.verifica_vitoria(&tabuleiro, jogador1.simbolo.as_str().trim()) {
                 break;
             }
@@ -61,10 +66,10 @@ fn main() {
                 break;
             }
         }
-
     } else if escolha_interface == "B" {
-
-        let jogo = QuatroEmLinha {nome: "Quatro em Linha".to_string()};
+        let jogo = QuatroEmLinha {
+            nome: "Quatro em Linha".to_string(),
+        };
 
         println!("Jogo escolhido - Quatro em linha");
         println!("Jogador 1 você deseja ser qual cor? Vermelho ou Azul? Digite V para Vermelho e A para azul!");
@@ -74,7 +79,6 @@ fn main() {
             println!("Opcao escolhida invalida, por favor digite A ou V:");
             opcao_escolhida = fns::le_linha();
         }
-
 
         println!("Voce escolheu a opcao {opcao_escolhida}");
         let jogador1 = Jogador::new(opcao_escolhida);
@@ -89,7 +93,7 @@ fn main() {
 
         println!("Participante 2 sera a opcao {opcao_escolhida_2}");
         let jogador2 = Jogador::new(opcao_escolhida_2.to_string());
-    
+
         loop {
             if jogo.verifica_empate(&tabuleiro) {
                 break;
@@ -109,6 +113,15 @@ fn main() {
                 break;
             }
         }
+    } else if escolha_interface.trim() == "C" {
+        let jogo = Damas {
+            nome: "Damas".to_string(),
+        };
+
+        println!("Jogo escolhido - Damas");
+        println!("Jogador 1 você será 'o' e o jogador 2 será o x");
+        let jogador1 = Jogador::new("o".to_string());
+        let jogador2 = Jogador::new("x".to_string());
     } else {
         println!("Fechando o programa.");
     }

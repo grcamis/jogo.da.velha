@@ -8,15 +8,14 @@ pub struct QuatroEmLinha {
 
 impl QuatroEmLinha {
     pub fn new(nome: String) -> Self {
-        Self {
-            nome: nome,
-        }
+        Self { nome: nome }
     }
 }
 
-
 impl ComportamentoJogo for QuatroEmLinha {
-    fn imprime_tabuleiro(&self,tabuleiro: &Tabuleiro) {
+    fn inicializa_tabuleiro(&self, tabuleiro: &mut Tabuleiro) {}
+
+    fn imprime_tabuleiro(&self, tabuleiro: &Tabuleiro) {
         for i in 0..6 {
             for j in 0..7 {
                 print!(" {} ", tabuleiro.tamanho[i][j]);
@@ -24,44 +23,45 @@ impl ComportamentoJogo for QuatroEmLinha {
             println!("");
         }
     }
-    
+
     fn gera_numero(&self) -> i32 {
         loop {
             let mut input = String::new();
             io::stdin()
                 .read_line(&mut input)
                 .expect("Falha ao ler a linha");
-    
+
             match input.trim().parse::<i32>() {
                 Ok(value) if value >= 0 && value <= 6 => return value,
                 _ => println!("Por favor, insira um número entre 0 e 6."),
             }
         }
     }
-    
-    fn verifica_linha(&self,tabuleiro: &mut Tabuleiro, opcao_escolhida: &str) {
+
+    fn verifica_linha(&self, tabuleiro: &mut Tabuleiro, opcao_escolhida: &str) {
         let mut verifica_jogada = false;
         let mut numero_coluna: i32;
-    
+
         while verifica_jogada == false {
             println!("Jogador {opcao_escolhida} por favor escolha a coluna");
-            numero_coluna = Self::gera_numero(&self,);
+            numero_coluna = Self::gera_numero(&self);
             if tabuleiro.tamanho[0][numero_coluna as usize] == "_" {
                 for i in (0..6).rev() {
                     if tabuleiro.tamanho[i][numero_coluna as usize] == "_" {
-                        tabuleiro.tamanho[i][numero_coluna as usize] = opcao_escolhida.trim().to_string();
+                        tabuleiro.tamanho[i][numero_coluna as usize] =
+                            opcao_escolhida.trim().to_string();
                         break;
                     }
                 }
-                Self::imprime_tabuleiro(&self,&tabuleiro);
+                Self::imprime_tabuleiro(&self, &tabuleiro);
                 verifica_jogada = true;
             } else {
                 println!("Linha cheia.");
             }
         }
     }
-    
-    fn verifica_vitoria(&self,tabuleiro: &Tabuleiro, opcao_escolhida: &str) -> bool {
+
+    fn verifica_vitoria(&self, tabuleiro: &Tabuleiro, opcao_escolhida: &str) -> bool {
         for i in 0..6 {
             for j in 0..3 {
                 let mut vitoria_horizontal: i32 = 0;
@@ -78,7 +78,7 @@ impl ComportamentoJogo for QuatroEmLinha {
                 }
             }
         }
-    
+
         for i in 0..6 {
             for j in 0..4 {
                 let mut vitoria_vertical: i32 = 0;
@@ -95,7 +95,7 @@ impl ComportamentoJogo for QuatroEmLinha {
                 }
             }
         }
-    
+
         for i in 0..6 {
             for j in 0..4 {
                 let mut vitoria_vertical: i32 = 0;
@@ -112,7 +112,7 @@ impl ComportamentoJogo for QuatroEmLinha {
                 }
             }
         }
-    
+
         for i in 3..6 {
             for j in 0..4 {
                 let mut contador = 0;
@@ -131,7 +131,7 @@ impl ComportamentoJogo for QuatroEmLinha {
                 }
             }
         }
-    
+
         for i in 3..6 {
             for j in 0..4 {
                 let mut contador = 0;
@@ -150,11 +150,11 @@ impl ComportamentoJogo for QuatroEmLinha {
                 }
             }
         }
-    
+
         return false;
     }
-    
-    fn verifica_empate(&self,tabuleiro: &Tabuleiro) -> bool {
+
+    fn verifica_empate(&self, tabuleiro: &Tabuleiro) -> bool {
         for i in 0..6 {
             for j in 0..7 {
                 if (tabuleiro.tamanho[i][j]) == "_" {
@@ -162,9 +162,8 @@ impl ComportamentoJogo for QuatroEmLinha {
                 }
             }
         }
-    
+
         println!("Empate!");
         return true;
     }
-
 }
