@@ -25,4 +25,10 @@ pub trait ComportamentoJogo {
     fn verifica_linha(&self, tabuleiro: &mut Tabuleiro, opcao_escolhida: &str);
     fn verifica_vitoria(&self, tabuleiro: &Tabuleiro, opcao_escolhida: &str) -> bool;
     fn verifica_empate(&self, tabuleiro: &Tabuleiro) -> bool;
+    fn inicializa_jogo(
+        &self,
+        tabuleiro: &mut Tabuleiro,
+        jogador1_simbolo: &str,
+        jogador2_simbolo: &str,
+    );
 }

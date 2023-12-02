@@ -15,6 +15,7 @@ fn main() {
     println!("Bem vindo aos mini jogos! Escolha a opção desejada para iniciarmos:");
     println!("Digite A caso queira jogar jogo da velha ");
     println!("Digite B caso queira jogar 4 em linha");
+    println!("Digite C caso queira damas");
     println!("Digite qualquer outra tecla caso queira sair do programa");
     let escolha_interface = fns::le_linha();
     let mut tabuleiro = Tabuleiro {
@@ -36,36 +37,16 @@ fn main() {
 
         println!("Voce escolheu a opcao {opcao_escolhida}");
         let jogador1 = Jogador::new(opcao_escolhida);
-
-        let opcao_escolhida_2;
-        if jogador1.simbolo.trim() == "X" {
-            opcao_escolhida_2 = "O";
+        let opcao_escolhida_2 = if jogador1.simbolo.trim() == "X" {
+            "0"
         } else {
-            opcao_escolhida_2 = "X";
-        }
+            "X"
+        };
 
         println!("Participante 2 sera a opcao {opcao_escolhida_2}");
         let jogador2 = Jogador::new(opcao_escolhida_2.to_string());
 
-        loop {
-            if jogo.verifica_empate(&tabuleiro) {
-                break;
-            }
-
-            jogo.verifica_linha(&mut tabuleiro, jogador1.simbolo.as_str().trim());
-            if jogo.verifica_vitoria(&tabuleiro, jogador1.simbolo.as_str().trim()) {
-                break;
-            }
-
-            if jogo.verifica_empate(&tabuleiro) {
-                break;
-            }
-
-            jogo.verifica_linha(&mut tabuleiro, jogador2.simbolo.as_str().trim());
-            if jogo.verifica_vitoria(&tabuleiro, jogador2.simbolo.as_str().trim()) {
-                break;
-            }
-        }
+        jogo.inicializa_jogo(&mut tabuleiro, &jogador1.simbolo, &jogador2.simbolo)
     } else if escolha_interface == "B" {
         let jogo = QuatroEmLinha {
             nome: "Quatro em Linha".to_string(),
@@ -82,37 +63,16 @@ fn main() {
 
         println!("Voce escolheu a opcao {opcao_escolhida}");
         let jogador1 = Jogador::new(opcao_escolhida);
-
-        let opcao_escolhida_2;
-
-        if jogador1.simbolo.trim() == "V" {
-            opcao_escolhida_2 = "A";
+        let opcao_escolhida_2 = if jogador1.simbolo.trim() == "V" {
+            "A"
         } else {
-            opcao_escolhida_2 = "V";
-        }
+            "V"
+        };
 
         println!("Participante 2 sera a opcao {opcao_escolhida_2}");
         let jogador2 = Jogador::new(opcao_escolhida_2.to_string());
 
-        loop {
-            if jogo.verifica_empate(&tabuleiro) {
-                break;
-            }
-
-            jogo.verifica_linha(&mut tabuleiro, jogador1.simbolo.as_str().trim());
-            if jogo.verifica_vitoria(&tabuleiro, jogador1.simbolo.as_str().trim()) {
-                break;
-            }
-
-            if jogo.verifica_empate(&tabuleiro) {
-                break;
-            }
-
-            jogo.verifica_linha(&mut tabuleiro, jogador2.simbolo.as_str().trim());
-            if jogo.verifica_vitoria(&tabuleiro, jogador2.simbolo.as_str().trim()) {
-                break;
-            }
-        }
+        jogo.inicializa_jogo(&mut tabuleiro, &jogador1.simbolo, &jogador2.simbolo);
     } else if escolha_interface.trim() == "C" {
         let jogo = Damas {
             nome: "Damas".to_string(),
@@ -122,6 +82,8 @@ fn main() {
         println!("Jogador 1 você será 'o' e o jogador 2 será o x");
         let jogador1 = Jogador::new("o".to_string());
         let jogador2 = Jogador::new("x".to_string());
+
+        jogo.inicializa_jogo(&mut tabuleiro, &jogador1.simbolo, &jogador2.simbolo);
     } else {
         println!("Fechando o programa.");
     }

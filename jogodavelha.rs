@@ -105,4 +105,31 @@ impl ComportamentoJogo for JogoDaVelha {
         println!("Empate!");
         return true;
     }
+
+    fn inicializa_jogo(
+        &self,
+        tabuleiro: &mut Tabuleiro,
+        jogador1_simbolo: &str,
+        jogador2_simbolo: &str,
+    ) {
+        loop {
+            if self.verifica_empate(&tabuleiro) {
+                break;
+            }
+
+            self.verifica_linha(tabuleiro, jogador1_simbolo.trim());
+            if self.verifica_vitoria(&tabuleiro, jogador1_simbolo.trim()) {
+                break;
+            }
+
+            if self.verifica_empate(&tabuleiro) {
+                break;
+            }
+
+            self.verifica_linha(tabuleiro, jogador2_simbolo.trim());
+            if self.verifica_vitoria(&tabuleiro, jogador2_simbolo.trim()) {
+                break;
+            }
+        }
+    }
 }
